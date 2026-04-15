@@ -24,6 +24,7 @@ A seguinte mensagem deve aparecer no seu terminal:
     Servidor rodando em http://localhost:3000
 
 Rotas da API:
+
     GET    | /expenses                  | Lista todas as despesas
     GET    | /expenses/:id              | Busca uma despesa pelo ID
     POST   | /expenses                  | Cria despesa
