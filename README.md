@@ -18,19 +18,19 @@ Iniciando a API
 
 Baixe as dependencias com:
     npm install
-Em seguida certifique-se de selecionar a pasta src com:
-    cd src
 E por fim execute:
-    node app.js
-A seguinte mensagem aparecera no seu terminal:
+    npm run dev
+A seguinte mensagem deve aparecer no seu terminal:
     Servidor rodando em http://localhost:3000
 
 Rotas da API:
-    GET    | /expenses     | Lista todas as despesas
-    GET    | /expenses/:id | Busca uma despesa pelo ID
-    POST   | /expenses     | Cria despesa
-    PUT    | /expenses/:id | Atualiza despesa
-    DELETE | /expenses/:id | Remove despesa
+    GET    | /expenses                  | Lista todas as despesas
+    GET    | /expenses/:id              | Busca uma despesa pelo ID
+    POST   | /expenses                  | Cria despesa
+    PUT    | /expenses/:id              | Atualiza despesa
+    DELETE | /expenses/:id              | Remove despesa
+    GET    | /expenses/summary/total    | Soma o valor total das despesas
+    GET    | /expenses/summary/category | Soma o valor das despesas pela categoria
 
 A classe Expense é composta por:
 
@@ -72,14 +72,14 @@ Exemplos de requisição no Postman:
 
     Resultado esperado:
     201 - Created
-        {
-            "id":id gerado,
-            "title":"Almoço de Domingo",
-            "amount":45.99,
-            "category":"Alimentação",
-            "date":"2024-05-20",
-            "description":"Restaurante com a família","createdAt":"2026-03-24T22:56:34.298Z"
-        }
+    {
+        "id":1,
+        "title":"Almoço de Domingo",
+        "amount":45.99,
+        "category":"Alimentação",
+        "date":"2024-05-20",
+        "description":"Restaurante com a família","createdAt":"2026-03-24T22:56:34.298Z"
+    }
     
     Atualizar despesa:
     PUT | http://localhost:3000/expenses/:id <- Insira um id existente
@@ -93,7 +93,7 @@ Exemplos de requisição no Postman:
     Resultado esperado:
     200 - OK
     {
-        "id": id gerado,
+        "id": 1,
         "title":"Almoço Executivo",
         "amount":35.00,
         "category":"Alimentação",
@@ -106,3 +106,22 @@ Exemplos de requisição no Postman:
 
     Resultado esperado: 204 - No content
 
+    Soma o valor total das despesas:
+    GET | http://localhost:3000/expenses/summary/total
+
+    Resultado esperado: 200 - Ok
+
+    {
+        "total": 229.5
+    }
+
+    Soma o valor das despesas pela categoria:
+    GET | http://localhost:3000/expenses/summary/category
+
+    Resultado esperado: 200 - Ok
+
+    {
+        "Alimentação": 45.9,
+        "Transporte": 3098.8,
+        "Carro": 750
+    }

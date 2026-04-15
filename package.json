@@ -4,6 +4,7 @@
   "description": "API para registrar as despesas pessoais.",
   "main": "src/app.js",
   "scripts": {
+    "dev": "node src/views/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
