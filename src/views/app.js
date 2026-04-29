@@ -8,18 +8,18 @@ const PORT = 3000;
 app.use(express.json());
 
 // Listar despesas
-app.get('/expenses', (req, res) => {
+app.get('/api/expenses', (req, res) => {
   try {
     const expenses = ExpenseController.getAll();
 
     res.status(200).json(expenses);
   } catch (error) {
-    res.status(400).json({ error: error.message })
+    res.status(400).json({ error: error.message });
   }
 });
 
 // Busca pelo ID
-app.get('/expenses/:id', (req, res) => {
+app.get('/api/expenses/:id', (req, res) => {
   try {
     const { id } = req.params;
 
@@ -27,39 +27,39 @@ app.get('/expenses/:id', (req, res) => {
 
     res.status(200).json(expense);
   } catch (error) {
-    res.status(400).json({ error: error.message })
+    res.status(400).json({ error: error.message });
   }
 });
 
 // Criar despesa
-app.post('/expenses', (req, res) => {
+app.post('/api/expenses', (req, res) => {
   try {
     const { title, amount, category, date, description } = req.body;
 
-    const newExpense = ExpenseController.create(title, amount, category, date, description)
+    const newExpense = ExpenseController.create(title, amount, category, date, description);
 
     res.status(201).json(newExpense);
   } catch (error) {
-    res.status(400).json({ error: error.message })
+    res.status(400).json({ error: error.message });
   }
 });
 
 // Atualiza pelo ID
-app.put('/expenses/:id', (req, res) => {
+app.put('/api/expenses/:id', (req, res) => {
   try {
     const { id } = req.params;
     const { title, amount, category, date, description } = req.body;
 
-    const expense = ExpenseController.update(Number(id), title, amount, category, date, description)
+    const expense = ExpenseController.update(Number(id), title, amount, category, date, description);
 
     res.status(200).json(expense);
   } catch (error) {
-    res.status(400).json({ error: error.message })
+    res.status(400).json({ error: error.message });
   }
 });
 
 // Remover pelo ID
-app.delete('/expenses/:id', (req, res) => {
+app.delete('/api/expenses/:id', (req, res) => {
   try {
     const { id } = req.params;
     
@@ -67,28 +67,28 @@ app.delete('/expenses/:id', (req, res) => {
 
     res.status(204).json();
   } catch (error) {
-    res.status(400).json({ error: error.message })
+    res.status(400).json({ error: error.message });
   }
 });
 
 //Calcular total de Despesas
-app.get('/expenses/summary/total', (req, res) => {
+app.get('/api/expenses/summary/total', (req, res) => {
   try {
     const total = ExpenseController.getSummaryTotal();
 
     res.status(200).json({ "total": total.toFixed(2)});
   } catch (error) {
-    res.status(400).json({ error: error.message })
+    res.status(400).json({ error: error.message });
   }
 });
 
-app.get('/expenses/summary/category', (req, res) => {
+app.get('/api/expenses/summary/category', (req, res) => {
   try {
     const json = ExpenseController.getSummaryCategory();
 
     res.status(200).json(json);
   } catch (error) {
-    res.status(400).json({ error: error.message })
+    res.status(400).json({ error: error.message });
   }
 })
 

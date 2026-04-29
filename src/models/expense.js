@@ -21,7 +21,7 @@ class Expense {
         const index = expenses.findIndex(exp => exp.id == id);
 
         if (index === -1) {
-            throw new Error("Despesa não encontrada");
+            throw new Error("Error: Expense not found");
         }
 
         return expenses.find(expense => expense.id === id);
@@ -41,7 +41,7 @@ class Expense {
         const index = expenses.findIndex(exp => exp.id == id);
 
         if (index === -1) {
-            throw new Error("Despesa não encontrada");
+            throw new Error("Error: Expense not found");
         }
         const expense = expenses.find(expense => expense.id === id);
         //Verifica os valores que precisam ser alterdados.
@@ -58,7 +58,7 @@ class Expense {
         const index = expenses.findIndex(exp => exp.id == id);
 
         if (index === -1) {
-            throw new Error("Despesa não encontrada");
+            throw new Error("Error: Expense not found");
         }
 
         expenses.splice(index, 1);

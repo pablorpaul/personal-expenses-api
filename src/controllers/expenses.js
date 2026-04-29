@@ -10,7 +10,7 @@ class Expense {
 
     getById(id){
         if (!id) {
-            throw new Error("Missing required fields");
+            throw new Error("Missing required fields: id");
         }
 
         return ExpenseModel.getById(id);
@@ -18,42 +18,42 @@ class Expense {
 
     create(title, amount, category, date, description){
         if (!title) {
-            throw new Error("Campos obrigatórios: title");
+            throw new Error("Missing required fields: title");
         }
         if (amount < 0) {
-            throw new Error("Erro: Amount tem que ser maior que zero");
+            throw new Error("Error: Amount must be greater than zero");
         }
         const hoje = new Date();
         if (Date.parse(date) > hoje){
-            throw new Error("Erro: Data informada não pode ser maior que a data atual");
+            throw new Error("Error: The date entered cannot be later than the current date");
         }
         return ExpenseModel.create(title, amount, category, date, description);
     }
 
     update(id, title, amount, category, date, description){
         if (!id){
-            throw new Error("Missing required fields");
+            throw new Error("Missing required fields: id");
         }
         if (!title) {
-            throw new Error("Campos obrigatórios: title");
+            throw new Error("Missing required fields: title");
         }
         if (amount < 0) {
-            throw new Error("Erro: Amount tem que ser maior que zero");
+            throw new Error("Error: Amount must be greater than zero");
         }
         const hoje = new Date();
         if (Date.parse(date) > hoje){
-            throw new Error("Erro: Data informada não pode ser maior que a data atual");
+            throw new Error("Error: The date entered cannot be later than the current date");
         }
         const expense = ExpenseModel.update(id, title, amount, category, date, description);
         if(!expense){
-            throw new Error("Despesa não encontrada");
+            throw new Error("Expense not found");
         }
         return expense;
     }
 
     delete(id){
         if (!id){
-            throw new Error("Missing required fields");
+            throw new Error("Missing required fields: id");
         }
         return ExpenseModel.delete(id);
     }

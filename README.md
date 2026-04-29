@@ -25,13 +25,13 @@ A seguinte mensagem deve aparecer no seu terminal:
 
 Rotas da API:
 
-    GET    | /expenses                  | Lista todas as despesas
-    GET    | /expenses/:id              | Busca uma despesa pelo ID
-    POST   | /expenses                  | Cria despesa
-    PUT    | /expenses/:id              | Atualiza despesa
-    DELETE | /expenses/:id              | Remove despesa
-    GET    | /expenses/summary/total    | Soma o valor total das despesas
-    GET    | /expenses/summary/category | Soma o valor das despesas pela categoria
+    GET    | /api/expenses                  | Lista todas as despesas
+    GET    | /api/expenses/:id              | Busca uma despesa pelo ID
+    POST   | /api/expenses                  | Cria despesa
+    PUT    | /api/expenses/:id              | Atualiza despesa
+    DELETE | /api/expenses/:id              | Remove despesa
+    GET    | /api/expenses/summary/total    | Soma o valor total das despesas
+    GET    | /api/expenses/summary/category | Soma o valor das despesas pela categoria
 
 A classe Expense é composta por:
 
@@ -46,21 +46,21 @@ A classe Expense é composta por:
 Exemplos de requisição no Postman:
 
     Busca por todas as despesas:
-    GET | http://localhost:3000/expenses
+    GET | http://localhost:3000/api/expenses
 
     Resultado esperado:
     Lista de despesas
     200 - OK
 
     Busca pela despesa com Id informado:
-    GET | http://localhost:3000/expenses/:id <- Insira um id existente
+    GET | http://localhost:3000/api/expenses/:id <- Insira um id existente
 
     Resultado esperado:
     Despesa do ID informado
     200 - OK
 
     Cria nova despesa:
-    POST | http://localhost:3000/expenses
+    POST | http://localhost:3000/api/expenses
     Alterar Body - raw - tipo JSON
     Insira esses dados:
     {
@@ -83,7 +83,7 @@ Exemplos de requisição no Postman:
     }
     
     Atualizar despesa:
-    PUT | http://localhost:3000/expenses/:id <- Insira um id existente
+    PUT | http://localhost:3000/api/expenses/:id <- Insira um id existente
     Alterar Body - raw - tipo JSON
     Insira esses dados:
     {
@@ -103,12 +103,12 @@ Exemplos de requisição no Postman:
     }
 
     Remover despesa:
-    DELETE | http://localhost:3000/expenses/:id <- Insira um id existente
+    DELETE | http://localhost:3000/api/expenses/:id <- Insira um id existente
 
     Resultado esperado: 204 - No content
 
     Soma o valor total das despesas:
-    GET | http://localhost:3000/expenses/summary/total
+    GET | http://localhost:3000/api/expenses/summary/total
 
     Resultado esperado: 200 - Ok
 
@@ -117,7 +117,7 @@ Exemplos de requisição no Postman:
     }
 
     Soma o valor das despesas pela categoria:
-    GET | http://localhost:3000/expenses/summary/category
+    GET | http://localhost:3000/api/expenses/summary/category
 
     Resultado esperado: 200 - Ok
 
