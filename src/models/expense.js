@@ -70,7 +70,7 @@ class Expense {
         let total = 0;
         expenses.forEach(exp => total += exp.amount)
 
-        return total;
+        return total.toFixed(2);
     }
 
     getSummaryCategory(){

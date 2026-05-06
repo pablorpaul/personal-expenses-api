@@ -12,7 +12,17 @@ app.get('/api/expenses', (req, res) => {
   try {
     const expenses = ExpenseController.getAll();
 
-    res.status(200).json(expenses);
+    res.status(200).json({
+      expenses, 
+      links:[
+        { 
+          "rel": "total", "method": "GET", "href": `http://localhost:3000/api/expenses/summary/total`
+        },
+        { 
+          "rel": "category_total", "method": "GET", "href": `http://localhost:3000/api/expenses/summary/category`
+        }
+      ]
+    });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -38,7 +48,20 @@ app.post('/api/expenses', (req, res) => {
 
     const newExpense = ExpenseController.create(title, amount, category, date, description);
 
-    res.status(201).json(newExpense);
+    res.status(201).json({
+      newExpense,
+      links:[
+        { 
+          "rel": "self", "method": "GET", "href": `http://localhost:3000/api/expenses/${newExpense.id}`
+        },
+        { 
+          "rel": "total", "method": "GET", "href": `http://localhost:3000/api/expenses/summary/total`
+        },
+        { 
+          "rel": "category_total", "method": "GET", "href": `http://localhost:3000/api/expenses/summary/category`
+        }
+      ]
+    });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -52,7 +75,20 @@ app.put('/api/expenses/:id', (req, res) => {
 
     const expense = ExpenseController.update(Number(id), title, amount, category, date, description);
 
-    res.status(200).json(expense);
+    res.status(200).json({
+      expense, 
+      links:[
+        { 
+          "rel": "self", "method": "GET", "href": `http://localhost:3000/api/expenses/${expense.id}`
+        },
+        { 
+          "rel": "total", "method": "GET", "href": `http://localhost:3000/api/expenses/summary/total`
+        },
+        { 
+          "rel": "category_total", "method": "GET", "href": `http://localhost:3000/api/expenses//api/expenses/summary/category`
+        }
+      ]
+    });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -76,12 +112,13 @@ app.get('/api/expenses/summary/total', (req, res) => {
   try {
     const total = ExpenseController.getSummaryTotal();
 
-    res.status(200).json({ "total": total.toFixed(2)});
+    res.status(200).json({ "total": total});
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 });
 
+//Calcular Despesas por Categoria
 app.get('/api/expenses/summary/category', (req, res) => {
   try {
     const json = ExpenseController.getSummaryCategory();
