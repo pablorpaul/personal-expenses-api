@@ -1,4 +1,4 @@
-const ExpenseModel = require('../models/expense');
+const { getAll, getById, create, update, deleteExpense } = require('../')
 
 class Expense {
     constructor(){
