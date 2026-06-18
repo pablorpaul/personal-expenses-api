@@ -99,6 +99,16 @@ const Expense = sequelize.define('expenses', {
         autoIncrement: true,
         primaryKey: true
     },
+    categoryId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: 'categories',
+            key: 'id'
+        },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
+    },
     title: {
         type: DataTypes.STRING,
         allowNull: false
@@ -185,4 +195,4 @@ async function getSumByCategory(){
         return sumCategory;
 }
 
-module.exports = { getAll, getById, create, update, deleteExpense }, Expense;
+module.exports = { getAll, getById, create, update, deleteExpense, getSumByCategory, getSummaryTotal }, Expense;

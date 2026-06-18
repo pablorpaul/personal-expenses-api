@@ -1,4 +1,4 @@
-const { getAll, getById, create, update, deleteExpense } = require('../')
+const { getAll, getById, create, update, deleteExpense, getSumByCategory, getSummaryCategory } = require('../models/expense.js');
 
 class Expense {
     constructor(){
@@ -55,7 +55,7 @@ class Expense {
         if (!id){
             throw new Error("Missing required fields: id");
         }
-        return ExpenseModel.delete(id);
+        return ExpenseModel.deleteExpense(id);
     }
 
     getSummaryTotal(){

@@ -1,5 +1,7 @@
 const express = require('express');
 const Expense = require('../src/views/expense.js');
+const Categories = require('../src/views/category.js');
+const Users = require('../src/views/user.js');
 const { sequelize } = require('./models/db');
 
 const app = express();
@@ -14,6 +16,18 @@ app.put('/api/expenses/:id', Expense.update);
 app.delete('/api/expenses/:id', Expense.delete);
 app.get('/api/expenses/summary/total', Expense.getTotal);
 app.get('/api/expenses/summary/category', Expense.getSumByCategory);
+
+app.get('/api/categories', Categories.getAll);
+app.get('/api/categories/:id', Categories.getById);
+app.post('/api/categories', Categories.create);
+app.put('/api/categories/:id', Categories.update);
+app.delete('/api/categories/:id', Categories.delete);
+
+app.get('/api/users', Users.getAll);
+app.get('/api/users/:id', Users.getById);
+app.post('/api/users', Users.create);
+app.put('/api/users/:id', Users.update);
+app.delete('/api/users/:id', Users.delete);
 
 async function main() {
     try {
