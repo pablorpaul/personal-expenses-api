@@ -21,44 +21,55 @@ const User = sequelize.define('users', {
     }
 })
 
-async function getAll(){
-    return await User.findAll();
-}
+class UserModel {
+    constructor() {}
 
-async function getById(id){
-    return await User.findByPk(id);
-}
+    async getUserByEmail(email) {
+        return await User.findOne({ where: { email }})
+    }
 
-async function create(name, email, password){
-    return await User.create({ name, email, password })
-}
+    async getAll(){
+        return await User.findAll();
+    }
 
-async function update(id, name, email, password) {
-    const user = await getById(id);
+    async getById(id){
+        return await User.findByPk(id);
+    }
 
-    if(!user){
+    async create(name, email, password){
+        return await User.create({ name, email, password })
+    }
+
+    async update(id, name, email, password) {
+        const user = await getById(id);
+
+        if(!user){
+            return null;
+        }
+
+        user.title = title;
+        user.amount = amount;
+        user.category = category;
+        user.date = date;
+        user.description = description;
+
+        await user.save();
+        return user;
+    }
+
+    async deleteUser(id) {
+        const user = await getById(id);
+
+        if (!user) {
+            return null
+        }
+
+        await User.destroy();
         return null;
     }
-
-    user.title = title;
-    user.amount = amount;
-    user.category = category;
-    user.date = date;
-    user.description = description;
-
-    await user.save();
-    return user;
 }
 
-async function deleteUser(id) {
-    const user = await getById(id);
+const userModel = new UserModel();
+userModel.User = User;
 
-    if (!user) {
-        return null
-    }
-
-    await User.destroy();
-    return null;
-}
-
-module.exports = { getAll, getById, create, update, deleteUser }, User;
+module.exports = userModel;

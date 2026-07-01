@@ -109,15 +109,22 @@ const Expense = sequelize.define('expenses', {
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE'
     },
+    userId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: 'users',
+            key: 'id'
+        },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
+    },
     title: {
         type: DataTypes.STRING,
         allowNull: false
     },
     amount: {
         type: DataTypes.FLOAT
-    },
-    category: {
-        type: DataTypes.STRING
     },
     date: {
         type: DataTypes.DATEONLY
@@ -131,68 +138,76 @@ const Expense = sequelize.define('expenses', {
 
 })
 
-async function getAll(){
-    return await Expense.findAll();
-}
+class ExpenseModel {
+    constructor() {}
 
-async function getById(id){
-    return await Expense.findByPk(id);
-}
+    async getAll(){
+        return await Expense.findAll();
+    }
 
-async function create(title, amount, category, date, description){
-    return await Expense.create({ title, amount, category, date, description})
-}
+    async getById(id){
+        return await Expense.findByPk(id);
+    }
 
-async function update(id, title, amount, category, date, description) {
-    const expense = await getById(id);
+    async create(categoryId, userId, title, amount, date, description){
+        return await Expense.create({ categoryId, userId, title, amount, date, description})
+    }
 
-    if(!expense){
+    async update(id, categoryId, userId, title, amount, date, description) {
+        const expense = await this.getById(id);
+
+        if(!expense){
+            return null;
+        }
+
+        expense.categoryId = categoryId;
+        expense.userId = userId;
+        expense.title = title;
+        expense.amount = amount;
+        expense.date = date;
+        expense.description = description;
+
+        await expense.save();
+        return expense;
+    }
+
+    async deleteExpense(id) {
+        const expense = await this.getById(id);
+
+        if (!expense) {
+            return null
+        }
+
+        await expense.destroy();
         return null;
     }
 
-    expense.title = title;
-    expense.amount = amount;
-    expense.category = category;
-    expense.date = date;
-    expense.description = description;
+    async getSummaryTotal() {
+        const expenses = await getAll();
 
-    await expense.save();
-    return expense;
-}
+        expenses.forEach(exp => total += exp.amount)
 
-async function deleteExpense(id) {
-    const expense = await getById(id);
-
-    if (!expense) {
-        return null
+        return total.toFixed(2);
     }
 
-    await expense.destroy();
-    return null;
+    async getSumByCategory(){
+        const expenses = await getAll();
+
+        const sumCategory = expenses.reduce((acumulador, expense) => {
+                if(!acumulador[expense.categoryId]){
+                    acumulador[expense.categoryId] = 0;
+                }
+
+                acumulador[expense.category] += expense.amount;
+
+                return acumulador
+            }, {});
+
+            return sumCategory;
+    }
 }
 
-async function getSummaryTotal() {
-    const expenses = getAll();
+const expenseModel = new ExpenseModel();
+expenseModel.expense = Expense;
 
-    expenses.forEach(exp => total += exp.amount)
-
-    return total.toFixed(2);
-}
-
-async function getSumByCategory(){
-    const expenses = getAll();
-
-    const sumCategory = expenses.reduce((acumulador, expense) => {
-            if(!acumulador[expense.category]){
-                acumulador[expense.category] = 0;
-            }
-
-            acumulador[expense.category] += expense.amount;
-
-            return acumulador
-        }, {});
-
-        return sumCategory;
-}
-
-module.exports = { getAll, getById, create, update, deleteExpense, getSumByCategory, getSummaryTotal }, Expense;
+module.exports = expenseModel;

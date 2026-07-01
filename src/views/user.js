@@ -4,6 +4,22 @@ class User {
     constructor(){
     }
 
+    async login(req, res) {
+        try {
+            const { email, password } = req.body || {}
+
+            if(!email || !password) {
+                return res.status(400).json({ error: 'Email e senha obrigatórios '});
+            }
+
+            const auth = await UserController.login(email, password);
+            return res.json(auth);
+        } catch (error) {
+            console.error('Error em login', error);
+            return res.status(401).json({ error: error.message });
+        }
+    }
+
     async getAll(req, res){
         try {
             const user = UserController.getAll();
@@ -64,4 +80,4 @@ class User {
     }
 }
 
-module.expots = new User();
+module.exports = new User();

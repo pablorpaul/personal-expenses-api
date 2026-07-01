@@ -6,9 +6,9 @@ class Category {
 
     async getAll(req, res) {
         try {
-            const categories = CategoryController.getAll();
+            const categories = await CategoryController.getAll();
 
-            res.status(200).json({categorys});
+            res.status(200).json(categories);
         } catch (error) {
             res.status(400).json({ error: error.message });
         }
@@ -18,7 +18,7 @@ class Category {
         try {
             const id = Number(req.params.id);
 
-            const category = CategoryController.getById(id);
+            const category = await CategoryController.getById(id);
 
             res.status(200).json(category);
         } catch (error) {
@@ -30,9 +30,9 @@ class Category {
         try {
             const { name, description } = req.body;
 
-            const newCategory = CategoryController.create(name, description);
+            const newCategory = await CategoryController.create(name, description);
 
-            res.status(201).json({ newCategory });
+            res.status(201).json(newCategory);
         } catch (error) {
             res.status(400).json({ error: error.message });
         }
@@ -43,9 +43,9 @@ class Category {
             const { id } = req.params;
             const { name, description } = req.body;
 
-            const category = CategoryController.update(Number(id), name, description);
+            const category = await CategoryController.update(Number(id), name, description);
 
-            res.status(200).json({ category });
+            res.status(200).json(category);
         } catch (error) {
             res.status(400).json({ error: error.message });
         }

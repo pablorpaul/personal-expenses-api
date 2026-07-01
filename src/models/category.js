@@ -17,41 +17,48 @@ const Category = sequelize.define('categories', {
 
 })
 
-async function getAll(){
-    return await Category.findAll();
-}
+class CategoryModel {
+    constructor() {}
 
-async function getById(id){
-    return await Category.findByPk(id);
-}
+    async getAll(){
+        return await Category.findAll();
+    }
 
-async function create(name, description){
-    return await Category.create({ name, description });
-}
+    async getById(id){
+        return await Category.findByPk(id);
+    }
 
-async function update(id, name, description){
-    const category = await getById(id);
+    async create(name, description){
+        return await Category.create({ name, description });
+    }
 
-    if(!category){
+    async update(id, name, description){
+        const category = await this.getById(id);
+
+        if(!category){
+            return null;
+        }
+
+        category.name = name;
+        category.description = description;
+
+        await category.save();
+        return category;
+    }
+
+    async deleteCategory(id){
+        const category = await this.getById(id);
+
+        if (!category) {
+            return null
+        }
+
+        await category.destroy();
         return null;
     }
-
-    category.name = name;
-    category.description = description;
-
-    await category.save();
-    return category;
 }
 
-async function deleteCategory(id){
-    const category = await getById(id);
+const categoryModel = new CategoryModel();
+categoryModel.Category = Category;
 
-    if (!category) {
-        return null
-    }
-
-    await category.destroy();
-    return null;
-}
-
-module.exports = { getAll, getById, create, update, deleteCategory}, Category;
+module.exports = categoryModel;

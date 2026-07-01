@@ -1,22 +1,22 @@
-const { getAll, getById, create, update, deleteExpense, getSumByCategory, getSummaryCategory } = require('../models/expense.js');
+const ExpenseModel = require('../models/expense.js');
 
 class Expense {
     constructor(){
     }
 
-    getAll(){
-        return ExpenseModel.getAll();
+    async getAll(){
+        return await ExpenseModel.getAll();
     }
 
-    getById(id){
+    async getById(id){
         if (!id) {
             throw new Error("Missing required fields: id");
         }
 
-        return ExpenseModel.getById(id);
+        return await ExpenseModel.getById(id);
     }
 
-    create(title, amount, category, date, description){
+    async create(categoryId, userId, title, amount, date, description){
         if (!title) {
             throw new Error("Missing required fields: title");
         }
@@ -27,10 +27,10 @@ class Expense {
         if (Date.parse(date) > hoje){
             throw new Error("Error: The date entered cannot be later than the current date");
         }
-        return ExpenseModel.create(title, amount, category, date, description);
+        return await ExpenseModel.create(categoryId, userId, title, amount, date, description);
     }
 
-    update(id, title, amount, category, date, description){
+    update(id, categoryId, userId, title, amount, date, description){
         if (!id){
             throw new Error("Missing required fields: id");
         }
@@ -44,26 +44,26 @@ class Expense {
         if (Date.parse(date) > hoje){
             throw new Error("Error: The date entered cannot be later than the current date");
         }
-        const expense = ExpenseModel.update(id, title, amount, category, date, description);
+        const expense = ExpenseModel.update(id, categoryId, userId, title, amount, date, description);
         if(!expense){
             throw new Error("Expense not found");
         }
         return expense;
     }
 
-    delete(id){
+    async delete(id){
         if (!id){
             throw new Error("Missing required fields: id");
         }
-        return ExpenseModel.deleteExpense(id);
+        return await ExpenseModel.deleteExpense(id);
     }
 
     getSummaryTotal(){
         return ExpenseModel.getSummaryTotal();
     }
 
-    getSummaryCategory(){
-        return ExpenseModel.getSummaryCategory();
+    async getSumByCategory(){
+        return await ExpenseModel.getSumByCategory();
     }
 }
 

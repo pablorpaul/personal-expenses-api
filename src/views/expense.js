@@ -6,19 +6,9 @@ class Expense {
 
     async getAll(req, res) {
         try {
-            const expenses = ExpenseController.getAll();
+            const expenses = await ExpenseController.getAll();
         
-            res.status(200).json({
-              expenses, 
-              links:[
-                { 
-                  "rel": "total", "method": "GET", "href": `http://localhost:3000/api/expenses/summary/total`
-                },
-                { 
-                  "rel": "category_total", "method": "GET", "href": `http://localhost:3000/api/expenses/summary/category`
-                }
-              ]
-            });
+            res.status(200).json(expenses);
         } catch (error) {
             res.status(400).json({ error: error.message });
         }
@@ -28,7 +18,7 @@ class Expense {
         try {
             const id = Number(req.params.id);
         
-            const expense = ExpenseController.getById(id);
+            const expense = await ExpenseController.getById(id);
         
             res.status(200).json(expense);
         } catch (error) {
@@ -38,24 +28,11 @@ class Expense {
 
     async create(req, res) {
         try {
-            const { title, amount, category, date, description } = req.body;
+            const { categoryId, userId, title, amount, date, description } = req.body;
         
-            const newExpense = ExpenseController.create(title, amount, category, date, description);
+            const newExpense = await ExpenseController.create(categoryId, userId, title, amount, date, description);
         
-            res.status(201).json({
-              newExpense,
-              links:[
-                { 
-                  "rel": "self", "method": "GET", "href": `http://localhost:3000/api/expenses/${newExpense.id}`
-                },
-                { 
-                  "rel": "total", "method": "GET", "href": `http://localhost:3000/api/expenses/summary/total`
-                },
-                { 
-                  "rel": "category_total", "method": "GET", "href": `http://localhost:3000/api/expenses/summary/category`
-                }
-              ]
-            });
+            res.status(201).json({newExpense});
         } catch (error) {
             res.status(400).json({ error: error.message });
         }
@@ -64,24 +41,11 @@ class Expense {
     async update(req, res) {
         try {
             const { id } = req.params;
-            const { title, amount, category, date, description } = req.body;
+            const { categoryId, userId, title, amount, date, description } = req.body;
         
-            const expense = ExpenseController.update(Number(id), title, amount, category, date, description);
+            const expense = await ExpenseController.update(Number(id), categoryId, userId, title, amount, date, description);
         
-            res.status(200).json({
-              expense, 
-              links:[
-                { 
-                  "rel": "self", "method": "GET", "href": `http://localhost:3000/api/expenses/${expense.id}`
-                },
-                { 
-                  "rel": "total", "method": "GET", "href": `http://localhost:3000/api/expenses/summary/total`
-                },
-                { 
-                  "rel": "category_total", "method": "GET", "href": `http://localhost:3000/api/expenses//api/expenses/summary/category`
-                }
-              ]
-            });
+            res.status(200).json({expense});
         } catch (error) {
             res.status(400).json({ error: error.message });
         }
@@ -91,7 +55,7 @@ class Expense {
         try {
             const { id } = req.params;
             
-            ExpenseController.delete(id);
+            await ExpenseController.delete(id);
         
             res.status(204).json();
         } catch (error) {
@@ -111,9 +75,9 @@ class Expense {
 
     async getSumByCategory(req, res) {
         try {
-            const json = ExpenseController.getSummaryCategory();
+            const sumByCategory = await ExpenseController.getSumByCategory();
         
-            res.status(200).json(json);
+            res.status(200).json(sumByCategory);
         } catch (error) {
             res.status(400).json({ error: error.message });
         }
