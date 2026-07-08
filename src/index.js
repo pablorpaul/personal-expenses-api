@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const Expense = require('../src/views/expense.js');
 const Categories = require('../src/views/category.js');
 const Users = require('../src/views/user.js');
@@ -8,6 +9,7 @@ const authMiddleware = require('./middleware/auth');
 const app = express();
 const PORT = 3000;
 
+app.use(cors());
 app.use(express.json());
 
 app.get('/api/expenses', authMiddleware, Expense.getAll);
@@ -17,6 +19,7 @@ app.put('/api/expenses/:id', authMiddleware, Expense.update);
 app.delete('/api/expenses/:id', authMiddleware, Expense.delete);
 app.get('/api/expenses/summary/total', authMiddleware, Expense.getTotal);
 app.get('/api/expenses/summary/category', authMiddleware, Expense.getSumByCategory);
+app.get('/api/expenses/summary/count', authMiddleware, Expense.getCount);
 
 app.get('/api/categories', authMiddleware, Categories.getAll);
 app.get('/api/categories/:id', authMiddleware, Categories.getById);

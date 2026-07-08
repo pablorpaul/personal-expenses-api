@@ -65,7 +65,7 @@ class Expense {
 
     async getTotal(req, res) {
         try {
-            const total = ExpenseController.getSummaryTotal();
+            const total = await ExpenseController.getSummaryTotal();
         
             res.status(200).json({ "total": total});
         } catch (error) {
@@ -82,6 +82,17 @@ class Expense {
             res.status(400).json({ error: error.message });
         }
     }
+
+    async getCount(req, res) {
+        try {
+            const count = await ExpenseController.getCount();
+        
+            res.status(200).json({ "count": count });
+        } catch (error) {
+            res.status(400).json({ error: error.message });
+        }
+    }
+
 }
 
 module.exports = new Expense();

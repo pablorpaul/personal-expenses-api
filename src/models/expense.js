@@ -183,27 +183,32 @@ class ExpenseModel {
     }
 
     async getSummaryTotal() {
-        const expenses = await getAll();
+        const expenses = await this.getAll();
 
-        expenses.forEach(exp => total += exp.amount)
+        let total = 0;
 
+        expenses.forEach(exp => total += exp.amount);
         return total.toFixed(2);
     }
 
     async getSumByCategory(){
-        const expenses = await getAll();
+        const expenses = await this.getAll();
 
         const sumCategory = expenses.reduce((acumulador, expense) => {
                 if(!acumulador[expense.categoryId]){
                     acumulador[expense.categoryId] = 0;
                 }
 
-                acumulador[expense.category] += expense.amount;
+                acumulador[expense.categoryId] += expense.amount;
 
                 return acumulador
             }, {});
 
             return sumCategory;
+    }
+
+    async getCount() {
+        return await Expense.count();
     }
 }
 

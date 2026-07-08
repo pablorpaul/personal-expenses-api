@@ -65,6 +65,10 @@ class Expense {
     async getSumByCategory(){
         return await ExpenseModel.getSumByCategory();
     }
+
+    async getCount(){
+        return await ExpenseModel.getCount();
+    }
 }
 
 module.exports = new Expense();
